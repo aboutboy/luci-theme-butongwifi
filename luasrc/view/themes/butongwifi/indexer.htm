@@ -55,19 +55,19 @@ var ifc = info.wan;
   if (ifc && ifc.ifname && ifc.proto != 'none')
 			{
 	var wan_linkid = document.getElementById('wan_link');
-	var wan_linkvl = String.format('<%:Wan Type%>: %s', ifc.proto);
+	var wan_linkvl = String.format('%s', ifc.proto);
 		wan_linkid.innerHTML = String.format('%s', wan_linkvl);
 	var wan_linkid = document.getElementById('wan_ip');
-	var wan_linkvl = String.format('<%:Wan IP%>: %s', (ifc.ipaddr) ? ifc.ipaddr : '0.0.0.0');
+	var wan_linkvl = String.format('%s', (ifc.ipaddr) ? ifc.ipaddr : '0.0.0.0');
 		wan_linkid.innerHTML = String.format('%s', wan_linkvl);
 	var wan_conid = document.getElementById('wan_con');
-	var wan_convl = String.format('<%:Connected%>: %t', ifc.uptime);
+	var wan_convl = String.format('%t', ifc.uptime);
 		wan_conid.innerHTML = String.format('%s', wan_convl);
 	var gw1_linkid = document.getElementById('gw1');
-	var gw1_linkvl = String.format('<%:Wan Gateway%>: %s', (ifc.gwaddr) ? ifc.gwaddr : '0.0.0.0');
+	var gw1_linkvl = String.format('%s', (ifc.gwaddr) ? ifc.gwaddr : '0.0.0.0');
 		gw1_linkid.innerHTML = String.format('%s', gw1_linkvl);
 	var dns_linkid = document.getElementById('dns1');
-	var dns_linkvl = String.format('<%:DNS1%>: %s', ifc.dns[0]);
+	var dns_linkvl = String.format('%s', ifc.dns[0]);
 		dns_linkid.innerHTML = String.format('%s', dns_linkvl);
 	var congifid = document.getElementById('congif');
 		congifid.src="/luci-static/butongwifi/images/cont.png"
@@ -75,19 +75,19 @@ var ifc = info.wan;
   else
 			{
         var wan_linkid = document.getElementById('wan_link');
-	var wan_linkvl = String.format('<%:Wan Type%>: %s', '<%:no connect%>');
+	var wan_linkvl = String.format('%s', '<%:no connect%>');
 		wan_linkid.innerHTML = String.format('%s', wan_linkvl);
         var wan_linkid = document.getElementById('wan_ip');
-	var wan_linkvl = String.format('<%:Wan IP%>: %s',  '<%:no connect%>');
+	var wan_linkvl = String.format('%s',  '<%:no connect%>');
 		wan_linkid.innerHTML = String.format('%s', wan_linkvl);
         var wan_conid = document.getElementById('wan_con');
-	var wan_convl = String.format('<%:Connected%>: %t', '<%:no connect%>');
+	var wan_convl = String.format('%t', '<%:no connect%>');
 		wan_conid.innerHTML = String.format('%s', wan_convl);
         var gw1_linkid = document.getElementById('gw1');
-	var gw1_linkvl = String.format('<%:Wan Gateway%>: %s',  '<%:no connect%>');
+	var gw1_linkvl = String.format('%s',  '<%:no connect%>');
 		gw1_linkid.innerHTML = String.format('%s', gw1_linkvl);
         var dns_linkid = document.getElementById('dns1');
-	var dns_linkvl = String.format('<%:DNS1%>: %s', '<%:no connect%>');
+	var dns_linkvl = String.format('%s', '<%:no connect%>');
 		dns_linkid.innerHTML = String.format('%s', dns_linkvl);
 	var congifid = document.getElementById('congif');
 		congifid.src="/luci-static/butongwifi/images/ncont.png"
@@ -101,8 +101,8 @@ var ifc = info.wan;
 			if (ifc6 && ifc6.ifname && ifc6.proto != 'none')
 			{
 				var s = String.format(
-					'<strong><%:Address%>: </strong>%s<br />' +
-					'<strong><%:Gateway%>: </strong>%s<br />',
+					'<strong><%:Address%></strong>%s<br />' +
+					'<strong><%:Gateway%></strong>%s<br />',
 						(ifc6.ip6addr) ? ifc6.ip6addr : '::',
 						(ifc6.gw6addr) ? ifc6.gw6addr : '::'
 				);
@@ -110,7 +110,7 @@ var ifc = info.wan;
 				for (var i = 0; i < ifc6.dns.length; i++)
 				{
 					s += String.format(
-						'<strong><%:DNS%> %d: </strong>%s<br />',
+						'<strong><%:DNS%> %d</strong>%s<br />',
 						i + 1, ifc6.dns[i]
 					);
 				}
@@ -118,7 +118,7 @@ var ifc = info.wan;
 				if (ifc6.uptime > 0)
 				{
 					s += String.format(
-						'<strong><%:Connected%>: </strong>%t<br />',
+						'<strong><%:Connected%></strong>%t<br />',
 						ifc6.uptime
 					);
 				}
@@ -415,9 +415,9 @@ var ifc = info.wan;
 	if (e = document.getElementById('localtime'))
 	e.innerHTML = info.localtime;
 	if (e = document.getElementById('lan_ip'))
-	e.innerHTML = String.format('<%:Lan IP%>: %s', info.lan_ip);
+	e.innerHTML = String.format('%s', info.lan_ip);
 	if (e = document.getElementById('lan_proto'))
-	e.innerHTML =  String.format('<%:Lan Type%>: %s', info.lan_proto);
+	e.innerHTML =  String.format('%s', info.lan_proto);
 	if (e = document.getElementById('uptime'))
 	e.innerHTML = String.format('%t', info.uptime);
 	if (e = document.getElementById('loadavg'))
@@ -467,47 +467,54 @@ var ifc = info.wan;
 
 <h2 name="content"><%:Status%></h2>
 <fieldset class="cbi-section">
-<table width="640" border="1">
-<tr>
-      <td width="140"><%:Router Model%></td>
+<table class="cbi-section-table" width="100%" cellspacing="10">
+<tr class="cbi-section-table-titles">
+      <th class="cbi-section-table-cell"><%:Router Model%></th>
       <td><%=pcdata(boardinfo.model or boardinfo.system or "?")%></td>
-      <td width="5" rowspan="8">&nbsp;</td>
-      <td width="180" id="wan_link"><%:Wan Type%>:</td>
-      <td width="210" id="wan_ip"><%:Wan IP%>:</td>
-      <td width="210" id="wan_con"><%:Connected%>:</td>
+      <th class="cbi-section-table-cell"><%:Wan Type%></th>
+	  <td  id="wan_link"></td>
+      <th class="cbi-section-table-cell"><%:Wan IP%></th>
+	  <td  id="wan_ip"></td>
+      <th class="cbi-section-table-cell"><%:Connected%></th>
+	  <td  id="wan_con"></td>
 </tr>
 <tr>
-      <td><%:Local Time%></td>
+      <th class="cbi-section-table-cell"><%:Local Time%></th>
       <td id="localtime">-</td>
-		<td><%:Flash Size%>: <%=luci.sys.exec("flashkb=`dmesg |grep spi |grep Kbytes|awk -F'(' '{print $2}'|awk -F' ' '{print $1}'`;if [ ${#flashkb} -gt 0 ];then let flashmb=$flashkb/1024;echo $flashmb;else dmesg |grep nand|grep MiB|head -n1|awk -F':' '{print $2}'|awk -F' ' '{print $3}'|awk -F'MiB' '{print $1}';fi;") or "?"%>MB</td>
-      <td align="left" id="gw1"><%:Wan Gateway%>:</td>
-      <td align="left" id="dns1"><%:DNS1%>:</td>
+	  <th class="cbi-section-table-cell"><%:Flash Size%></th> 
+	  <td><%=luci.sys.exec("flashkb=`dmesg |grep spi |grep Kbytes|awk -F'(' '{print $2}'|awk -F' ' '{print $1}'`;if [ ${#flashkb} -gt 0 ];then let flashmb=$flashkb/1024;echo $flashmb;else dmesg |grep nand|grep MiB|head -n1|awk -F':' '{print $2}'|awk -F' ' '{print $3}'|awk -F'MiB' '{print $1}';fi;") or "?"%>MB</td>
+      <th class="cbi-section-table-cell"><%:Wan Gateway%></th>
+	  <td id="gw1"></td>
+      <th class="cbi-section-table-cell"><%:DNS1%></th>
+	  <td id="dns1"></td>
 </tr>
 <tr>
-      <td><%:Uptime%></td>
+      <th class="cbi-section-table-cell"><%:Uptime%></th>
       <td id="uptime">-</td>
-      <td align="left"><img src="/luci-static/butongwifi/images/net.gif" />
-        <%:Lan Status%></td>
-      <td align="left" id="lan_proto"><%:Lan Type%>:</td>
-      <td align="left" id="lan_ip"><%:Lan IP%>:</td>
+      <th class="cbi-section-table-cell"><img src="/luci-static/butongwifi/images/net.gif" />
+        <%:Lan Status%></th>
+      <th class="cbi-section-table-cell"><%:Lan Type%></th>
+	  <td id="lan_proto"></td>
+      <th class="cbi-section-table-cell"><%:Lan IP%></th>
+	  <td id="lan_ip"></td>
 </tr>
 
 <tr>
-      <td><%:Load Average%></td>
+      <th class="cbi-section-table-cell"><%:Load Average%></th>
       <td id="loadavg">-</td>
-      <td><img src="/luci-static/butongwifi/images/firmware.gif" />
-       <%:firmware-info%></td>
+      <th class="cbi-section-table-cell"><img src="/luci-static/butongwifi/images/firmware.gif" />
+       <%:firmware-info%></th>
       <td><%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%></td>
       <td><a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=fb76e413fd02a1de7b245b9dbffe35204298b32b94b8ac7ae94b6148044a83b1"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="不同生活技术部" title="不同生活技术部"></a></td>
 </tr>
 
 <tr>
-      <td><%:Cpu Model%></td>
+      <th class="cbi-section-table-cell"><%:Cpu Model%></th>
       <td><%=luci.sys.exec("grep -E 'system type|Hardware' /proc/cpuinfo |awk -F ': ' '{print $2}'") or "?"%></td>
       <td colspan="3"><img id="congif" src="/luci-static/butongwifi/images/cont.gif" alt="" /></td>
 </tr>
 <tr>
-<td><%:Total Available%></td>
+<th class="cbi-section-table-cell"><%:Total Available%></th>
       <td id="memtotal">-</td>
       <td align="left"><img src="/luci-static/butongwifi/images/set.png" alt="" /> <a class="animated bounceIn" href="<%=luci.dispatcher.build_url("admin", "network", "network", "wan")%>">
 
@@ -521,7 +528,7 @@ var ifc = info.wan;
       </a></td>
 </tr>
 <tr>
-      <td><%:Active Connections%></td>
+      <th class="cbi-section-table-cell"><%:Active Connections%></th>
       <td align="left" id="conns">-</td>
       <td align="left"></td>
 
@@ -530,6 +537,7 @@ var ifc = info.wan;
       <td align="left"></td>
 </tr>
 </table>
+</fieldset>
 
 <% if has_dhcp then %>
 <fieldset class="cbi-section">
